@@ -61,7 +61,7 @@ export default {
     methods: {
         submitHandler(e){
             e.preventDefault();
-            this.$store.commit('setLoading')
+            this.$store.dispatch('register')
         }
     },
 }
