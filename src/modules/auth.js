@@ -19,7 +19,20 @@ const mutations = {
     },
     registerFailure(state, payload){
         state.isLoading = false
-        state.errors = payload
+        state.errors = payload.errors
+    },
+    loginStart(state){
+        state.isLoading = true
+        state.user = null
+        state.errors = null
+    },
+    loginSuccess(state, payload){
+        state.isLoading = false
+        state.user = payload
+    },
+    loginFailure(state, payload){
+        state.isLoading = false
+        state.errors = payload.errors
     }
 }
 
@@ -35,6 +48,22 @@ const actions = {
             })
             .catch(error => {
                 context.commit('registerFailure', error.response.data)
+                reject(error.response.data)
+            })
+        })
+    },
+
+    login(context, user){
+        context.commit('loginStart')
+        return new Promise((resolve, reject) => {
+            authService.login(user)
+            .then(res => {
+                context.commit('loginSuccess', res.data.user)
+                setItem("token", res.data.user.token)
+                resolve(res.data.user)
+            })
+            .catch(error => {
+                context.commit('loginFailure', error.response.data)
                 reject(error.response.data)
             })
         })

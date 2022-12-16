@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { logo, responsiveLogo } from './constants'
+import { logo, responsiveLogo } from '../constants'
 export default {
     data() {
         return {
